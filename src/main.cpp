@@ -7,7 +7,7 @@ const uint8_t switchPin = 5;
 //NeoPixel Setup
 const uint16_t PixelCount = 5;
 const uint8_t PixelPin = 2;
-#define brightness 0.2 // Between 0 and 1
+#define brightness 1 // Between 0 and 1
 NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod> strip(PixelCount, PixelPin);
 
 // Set rgb colours
@@ -17,6 +17,11 @@ RgbColor green(0, 255 * brightness, 0);
 RgbColor blue(0, 0, 255 * brightness);
 RgbColor purple(255*brightness/2, 0, 255*brightness/2);
 RgbColor black(0);
+
+// Timing
+unsigned long ledTimer = millis();
+const int ledGap = 1 * 1000;
+int loopnum = 1;
 
 void setup() {
   pinMode(switchPin, INPUT_PULLUP);
@@ -31,15 +36,48 @@ void loop() {
       strip.SetPixelColor(i, black);
     }
     strip.Show();
-    delay(100);
   } else {
-    strip.SetPixelColor(0, black);
-    strip.SetPixelColor(1, red);
-    strip.SetPixelColor(2, green);
-    strip.SetPixelColor(3, blue);
-    strip.SetPixelColor(4, purple);
-
-    strip.Show();
-    delay(100);
+    if (millis() > ledTimer + ledGap) {
+      switch (loopnum) {
+        case 1:
+          strip.SetPixelColor(0, black);
+          strip.SetPixelColor(1, red);
+          strip.SetPixelColor(2, green);
+          strip.SetPixelColor(3, blue);
+          strip.SetPixelColor(4, black);
+          loopnum++;
+          break;
+        case 2:
+          strip.SetPixelColor(0, black);
+          strip.SetPixelColor(1, black);
+          strip.SetPixelColor(2, red);
+          strip.SetPixelColor(3, green);
+          strip.SetPixelColor(4, blue);
+          loopnum++;
+          break;
+        case 3:
+          strip.SetPixelColor(0, black);
+          strip.SetPixelColor(1, blue);
+          strip.SetPixelColor(2, black);
+          strip.SetPixelColor(3, red);
+          strip.SetPixelColor(4, green);
+          loopnum++;
+          break;
+        case 4:
+          strip.SetPixelColor(0, black);
+          strip.SetPixelColor(1, green);
+          strip.SetPixelColor(2, blue);
+          strip.SetPixelColor(3, black);
+          strip.SetPixelColor(4, red);
+          loopnum = 1;
+          break;
+        default:
+          loopnum = 1;
+          break;
+      }
+      strip.Show();
+      ledTimer = millis();
+    }
   }
+  delay(10);
 }
