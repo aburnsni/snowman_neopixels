@@ -31,8 +31,8 @@ void setup() {
 void loop() {
   if (digitalRead(switchPin)) {
     // Switch high static white light
-    strip.SetPixelColor(0, white);
-    for (uint8_t i = 1; i < PixelCount; i++) {
+    strip.SetPixelColor(4, white);
+    for (uint8_t i = 0; i < PixelCount-1; i++) {
       strip.SetPixelColor(i, black);
     }
     strip.Show();
@@ -40,35 +40,35 @@ void loop() {
     if (millis() > ledTimer + ledGap) {
       switch (loopnum) {
         case 1:
+          strip.SetPixelColor(4, black);
+          strip.SetPixelColor(0, red);
+          strip.SetPixelColor(1, green);
+          strip.SetPixelColor(2, blue);
+          strip.SetPixelColor(3, black);
+          loopnum++;
+          break;
+        case 2:
+          strip.SetPixelColor(4, black);
           strip.SetPixelColor(0, black);
           strip.SetPixelColor(1, red);
           strip.SetPixelColor(2, green);
           strip.SetPixelColor(3, blue);
-          strip.SetPixelColor(4, black);
-          loopnum++;
-          break;
-        case 2:
-          strip.SetPixelColor(0, black);
-          strip.SetPixelColor(1, black);
-          strip.SetPixelColor(2, red);
-          strip.SetPixelColor(3, green);
-          strip.SetPixelColor(4, blue);
           loopnum++;
           break;
         case 3:
-          strip.SetPixelColor(0, black);
-          strip.SetPixelColor(1, blue);
-          strip.SetPixelColor(2, black);
-          strip.SetPixelColor(3, red);
-          strip.SetPixelColor(4, green);
+          strip.SetPixelColor(4, black);
+          strip.SetPixelColor(0, blue);
+          strip.SetPixelColor(1, black);
+          strip.SetPixelColor(2, red);
+          strip.SetPixelColor(3, green);
           loopnum++;
           break;
         case 4:
-          strip.SetPixelColor(0, black);
-          strip.SetPixelColor(1, green);
-          strip.SetPixelColor(2, blue);
-          strip.SetPixelColor(3, black);
-          strip.SetPixelColor(4, red);
+          strip.SetPixelColor(4, black);
+          strip.SetPixelColor(0, green);
+          strip.SetPixelColor(1, blue);
+          strip.SetPixelColor(2, black);
+          strip.SetPixelColor(3, red);
           loopnum = 1;
           break;
         default:
